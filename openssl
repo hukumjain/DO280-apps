@@ -1,0 +1,21 @@
+openssl commands:
+[student@workstation ~]$ yum provides htpasswd
+[student@workstation ~]$ yum provides openssl
+[student@workstation ~]$ sudo yum install openssl -y
+
+
+
+[student@workstation openssl]$ openssl genrsa -out tls.key 2048
+
+[student@workstation openssl]$ openssl req -new -key tls.key  -out tls.csr 
+
+[student@workstation openssl]$ openssl x509 -req -in tls.csr -out tls.crt -signkey tls.key -days 3650 -sha256
+
+
+[student@workstation openssl]$ oc create route edge secured-nginx --service=nginx --hostname=secured-nginx.apps.ocp4.example.com --cert tls.crt --key tls.key
+
+
+
+
+
+
