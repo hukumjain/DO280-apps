@@ -1,0 +1,56 @@
+[student@workstation openssl]$ openssl genrsa -des3 -out myCA.key 2048
+Generating RSA private key, 2048 bit long modulus (2 primes)
+..+++++
+..............................................................................+++++
+e is 65537 (0x010001)
+Enter pass phrase for myCA.key:
+Verifying - Enter pass phrase for myCA.key:
+[student@workstation openssl]$ openssl req -x509 -new -nodes -key myCA.key -out myCA.pem -days 3650 -sha256
+Enter pass phrase for myCA.key:
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:US
+State or Province Name (full name) []:NC
+Locality Name (eg, city) [Default City]:Raleigh
+Organization Name (eg, company) [Default Company Ltd]:IBM
+Organizational Unit Name (eg, section) []:GBS
+Common Name (eg, your name or your server's hostname) []:crc.ibm.com
+Email Address []:
+[student@workstation openssl]$ openssl genrsa -out tls.key 2048
+Generating RSA private key, 2048 bit long modulus (2 primes)
+..........................................................................+++++
+.......................+++++
+e is 65537 (0x010001)
+[student@workstation openssl]$ openssl req -new -key tls.key -out tls.csr 
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:US
+State or Province Name (full name) []:NC
+Locality Name (eg, city) [Default City]:Raleigh
+Organization Name (eg, company) [Default Company Ltd]:Red Hat
+Organizational Unit Name (eg, section) []:RH
+Common Name (eg, your name or your server's hostname) []:secured-nginx.apps.ocp4.example.com
+Email Address []:
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+[student@workstation openssl]$ openssl x509 -req -in tls.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out tls.crt -days 1650 -sha256
+Signature ok
+subject=C = US, ST = NC, L = Raleigh, O = Red Hat, OU = RH, CN = secured-nginx.apps.ocp4.example.com
+Getting CA Private Key
+Enter pass phrase for myCA.key:
+[student@workstation openssl]$ ls
+myCA.key  myCA.pem  myCA.srl  tls.crt  tls.csr  tls.key
+
