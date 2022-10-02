@@ -54,3 +54,9 @@ Enter pass phrase for myCA.key:
 [student@workstation openssl]$ ls
 myCA.key  myCA.pem  myCA.srl  tls.crt  tls.csr  tls.key
 
+
+================================================================
+
+[student@workstation openssl]$ oc create route edge secured-nginx --service=nginx --hostname secured-nginx.apps.ocp4.example.com --cert=tls.crt --key=tls.key --ca-cert=myCA.pem 
+route.route.openshift.io/secured-nginx created
+
